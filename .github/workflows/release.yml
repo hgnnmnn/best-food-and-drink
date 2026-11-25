@@ -16,8 +16,13 @@ jobs:
         with:
           fetch-depth: 0 # packager needs full history for changelog
 
+      - name: Build zip name (v1.0.1 -> BestFoodDrink-v1-0-1)
+        run: echo "ZIP_NAME=BestFoodDrink-${GITHUB_REF_NAME//./-}" >> "$GITHUB_ENV"
+
       - name: Package and release
         uses: BigWigsMods/packager@v2
+        with:
+          args: -g 1.60.1 -n "${{ env.ZIP_NAME }}"
         env:
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
