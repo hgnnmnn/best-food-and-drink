@@ -1,0 +1,9 @@
+## Interface: 16001, 120100, 120105, 11508, 11509
+## Title: Best Food & Drink
+## Notes: Shows the best food and drink from your bags as clickable buttons.
+## Notes-deDE: Zeigt das beste Essen und Trinken aus deinen Taschen als klickbare Buttons an.
+## Author: siebenZehn
+## Version: 1.0
+## SavedVariables: BestFoodDrinkDB
+
+BestFoodDrink.lua
