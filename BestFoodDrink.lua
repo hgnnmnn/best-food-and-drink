@@ -59,7 +59,18 @@ tip:SetOwner(UIParent, "ANCHOR_NONE")
 local healthWords = { "health", "gesundheit", "vie", "salud", "life", "saude", "saúde", "salute" }
 local manaWords = { "mana", "maná" }
 
+-- Entfernt Tausendertrenner ("2,600", "2.600", "2 600"), sonst wird nur "600" gelesen.
+local function StripSeparators(text)
+    for _ = 1, 2 do
+        text = text:gsub("(%d)[,%.](%d%d%d)", "%1%2")
+        text = text:gsub("(%d)\194\160(%d%d%d)", "%1%2")
+        text = text:gsub("(%d)\226\128\175(%d%d%d)", "%1%2")
+    end
+    return text
+end
+
 local function FindValue(text, words)
+    text = StripSeparators(text)
     local best = 0
     for _, w in ipairs(words) do
         local n = text:match("(%d+)[^%d]*" .. w)
@@ -438,7 +449,22 @@ SlashCmdList["BESTFOODDRINK"] = function(msg)
         if not InCombatLockdown() then ApplyLayout() end
     elseif cmd == "refresh" then
         wipe(cache); Refresh()
+    elseif cmd == "debug" then
+        local level = UnitLevel("player")
+        for bag = 0, (NUM_BAG_SLOTS or 4) do
+            for slot = 1, (GetNumSlots(bag) or 0) do
+                local id, link = SlotItem(bag, slot)
+                if id and link then
+                    local _, _, _, _, minLevel, _, _, _, _, _, _, classID, subClassID = GetItemInfoFn(link)
+                    if classID == 0 and subClassID == 5 then
+                        local h, m, conj = ParseTooltip(link)
+                        print(("|cff33ff99BFD|r %s class=%s/%s minLvl=%s (you %s) health=%d mana=%d conjured=%s"):format(
+                            link, tostring(classID), tostring(subClassID), tostring(minLevel), level, h, m, tostring(conj)))
+                    end
+                end
+            end
+        end
     else
-        print("|cff33ff99BFD|r: /bfd lock | unlock | scale <0.5-3> | size <20-100> | auto | reset | refresh")
+        print("|cff33ff99BFD|r: /bfd lock | unlock | scale <0.5-3> | size <20-100> | auto | reset | refresh | debug")
     end
 end
