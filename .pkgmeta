@@ -1,0 +1,6 @@
+package-as: BestFoodDrink
+
+ignore:
+  - .github
+  - .gitignore
+  - .pkgmeta

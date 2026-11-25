@@ -3,7 +3,8 @@
 ## Notes: Shows the best food and drink from your bags as clickable buttons.
 ## Notes-deDE: Zeigt das beste Essen und Trinken aus deinen Taschen als klickbare Buttons an.
 ## Author: siebenZehn
-## Version: 1.0
+## Version: @project-version@
 ## SavedVariables: BestFoodDrinkDB
+## X-Curse-Project-ID: 1820835
 
 BestFoodDrink.lua
